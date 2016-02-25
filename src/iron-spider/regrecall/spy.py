@@ -1,5 +1,6 @@
 from urllib2 import urlopen, HTTPError
 from bs4 import BeautifulSoup
+import re
 
 # def getTitle(url):
 #     try:
@@ -38,6 +39,13 @@ bsChildren = BeautifulSoup(htmlChildren.read(), "html.parser")
 # for child in bsChildren.find("table", {"id": "giftList"}).children:
 #     print(child)
 
-for sibling in bsChildren.find("table", {"id": "giftList"}).tr.next_siblings:
-    print(sibling)
+# for sibling in bsChildren.find("table", {"id": "giftList"}).tr.next_siblings:
+#     print(sibling)
 
+# print(bsChildren.find("img", {"src": "../img/gifts/img1.jpg"})).parent.previous_sibling.get_text()
+
+images = bsChildren.findAll("img", {"src": re.compile("\.\./img\/gifts/img.*\.jpg")})
+for image in images:
+    print(image["src"])
+
+print(bsChildren.findAll(lambda tag: len(tag.attrs) == 2))
